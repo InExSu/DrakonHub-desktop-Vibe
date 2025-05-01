@@ -4,6 +4,7 @@
   "version": "2025.01.18",
   "description": "A drakon flowchart and mind-map editor",
   "main": "main.js",
+  "type": "commonjs",
   "scripts": {
     "build:mac": "electron-builder --mac",
     "start": "electron-forge start",

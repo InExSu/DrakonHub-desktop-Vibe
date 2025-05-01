@@ -710,6 +710,10 @@ const createWindow = async (filePath) => {
     })
     win.setMenu(null)
 
+    // Добавить проверку NODE_ENV для автоматического открытия DevTools
+    if (process.env.NODE_ENV === 'development') {
+        win.webContents.openDevTools()
+    }
     var id = win.webContents.id.toString()
     var winInfo = {
         id: id,
@@ -872,4 +876,6 @@ async function main() {
     createWindow(filename)
 }
 
+const debug = require('electron-debug');
+debug(); // Включение отладочного режима
 main()
