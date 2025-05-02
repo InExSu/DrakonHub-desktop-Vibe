@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 function dh2common() {
     var unit = {};
     var utils, html, http, widgets, gconfig, drakon_canvas;
@@ -112,7 +113,7 @@ function dh2common() {
         return gconfig.imagePath + image;
     }
     function createLogonScreen(widget, onSuccessCallback, goToRegisterCallback, onCancel, accountUrl) {
-        var user, password, inputStyle, title, userLab, passLab, noAccountLab, forgotLab, spacer, spacer2, error, logonButt, createAccountButton, reset, form, formClass, formStyle, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9, _var10, _var11;
+        var user, password, inputStyle, title, userLab, passLab, noAccountLab, spacer, spacer2, error, logonButt, createAccountButton, reset, form, formClass, formStyle, _var2, _var3, _var4, _var5, _var6, _var8, _var9, _var10, _var11;
         var __state = '10';
         while (true) {
             switch (__state) {
@@ -184,8 +185,6 @@ function dh2common() {
                 userLab = div({ text: _var4 });
                 _var6 = translate('No account?');
                 noAccountLab = div({ text: _var6 });
-                _var7 = translate('Forgot password?');
-                forgotLab = div({ text: _var7 });
                 _var5 = translate('Password');
                 passLab = div({ text: _var5 });
                 spacer = div({ height: '20px' });
@@ -779,7 +778,7 @@ function dh2common() {
             }
         }
     }
-    function importDiagram_create(jsonString, filename, parentId, tr) {
+    function importDiagram_create(jsonString, filename, parentId) {
         var internal, parsedFilename, folder, payload, id, url, parsed, _var2, _var3, _var4, _var5;
         var me = {
             state: '20',
@@ -1134,8 +1133,9 @@ function dh2common() {
                         } else {
                             try {
                                 parsed = JSON.parse(obj[prop]);
-                            } catch (ex) {
-                            }
+                            } catch (ex) { 
+                                console.error('Произошла ошибка:', ex);
+                             }
                             if (parsed) {
                                 __state = '3';
                             } else {
@@ -1439,13 +1439,6 @@ function dh2common() {
             }
         }
     }
-    function td() {
-        var args, properties, _var2;
-        args = Array.prototype.slice.call(arguments);
-        properties = {};
-        _var2 = html.createElement('td', properties, args);
-        return _var2;
-    }
     function saveAsJson(widget) {
         var exported, filename, obj, extension, _var2, _var3;
         exported = widget.exportJson();
@@ -1456,9 +1449,6 @@ function dh2common() {
         filename = _var2 + extension;
         downloadTextDataAsFile(filename, exported);
         return;
-    }
-    function buildBaseUrl() {
-        return window.location.origin + window.location.pathname;
     }
     function downloadTextDataAsFile(filename, data) {
         var file, link, url;
@@ -3166,6 +3156,7 @@ function dh2common() {
             }
         }
     }
+    // eslint-disable-next-line no-unused-vars
     function PanicScreen_redraw(self, container) {
         return;
     }
@@ -3587,7 +3578,7 @@ function dh2common() {
         return unit.traces;
     }
     function traceCore(name, value, largeObj) {
-        var bucket, maxTrace;
+        var bucket;
         var __state = '2';
         while (true) {
             switch (__state) {
@@ -3595,7 +3586,6 @@ function dh2common() {
                 return;
             case '2':
                 console.log('trace', name, value);
-                maxTrace = 40;
                 if (name) {
                     if (largeObj) {
                         unit.largeObj = largeObj;

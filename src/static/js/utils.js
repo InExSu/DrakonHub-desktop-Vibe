@@ -4,25 +4,25 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                if (value === undefined) {
-                    __state = '8';
-                } else {
-                    if (value === '') {
+                case '2':
+                    if (value === undefined) {
                         __state = '8';
                     } else {
-                        if (value === null) {
+                        if (value === '') {
                             __state = '8';
                         } else {
-                            return true;
+                            if (value === null) {
+                                __state = '8';
+                            } else {
+                                return true;
+                            }
                         }
                     }
-                }
-                break;
-            case '8':
-                return false;
-            default:
-                return;
+                    break;
+                case '8':
+                    return false;
+                default:
+                    return;
             }
         }
     }
@@ -64,25 +64,25 @@ function utils() {
             try {
                 while (true) {
                     switch (me.state) {
-                    case '2':
-                        me.state = '6';
-                        return;
-                    case '5':
-                        tobj = setTimeout(function () {
-                            me.onTimeout();
-                        }, delay);
-                        me.state = '11';
-                        return;
-                    case '12':
-                        clearTimeout(tobj);
-                        me.state = '5';
-                        break;
-                    case '13':
-                        action(msg);
-                        me.state = '2';
-                        break;
-                    default:
-                        return;
+                        case '2':
+                            me.state = '6';
+                            return;
+                        case '5':
+                            tobj = setTimeout(function () {
+                                me.onTimeout();
+                            }, delay);
+                            me.state = '11';
+                            return;
+                        case '12':
+                            clearTimeout(tobj);
+                            me.state = '5';
+                            break;
+                        case '13':
+                            action(msg);
+                            me.state = '2';
+                            break;
+                        default:
+                            return;
                     }
                 }
             } catch (ex) {
@@ -96,26 +96,26 @@ function utils() {
                 me.onInput = function (_msg_) {
                     msg = _msg_;
                     switch (me.state) {
-                    case '6':
-                        me.state = '5';
-                        _main_debounce(__resolve, __reject);
-                        break;
-                    case '11':
-                        me.state = '12';
-                        _main_debounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '6':
+                            me.state = '5';
+                            _main_debounce(__resolve, __reject);
+                            break;
+                        case '11':
+                            me.state = '12';
+                            _main_debounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.onTimeout = function () {
                     switch (me.state) {
-                    case '11':
-                        me.state = '13';
-                        _main_debounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '13';
+                            _main_debounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 _main_debounce(__resolve, __reject);
@@ -142,45 +142,45 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                checker = createFilenameChecker();
-                result = '';
-                i = 0;
-                __state = '5';
-                break;
-            case '4':
-                i++;
-                __state = '5';
-                break;
-            case '5':
-                if (i < raw.length) {
-                    ch = raw[i];
-                    code = raw.charCodeAt(i);
-                    _var2 = isSpace(code);
-                    if (_var2) {
-                        result += ' ';
-                        __state = '4';
-                    } else {
-                        if (code > 32) {
-                            _var3 = checker.isGoodChar(ch);
-                            if (_var3) {
-                                result += ch;
-                                __state = '4';
+                case '2':
+                    checker = createFilenameChecker();
+                    result = '';
+                    i = 0;
+                    __state = '5';
+                    break;
+                case '4':
+                    i++;
+                    __state = '5';
+                    break;
+                case '5':
+                    if (i < raw.length) {
+                        ch = raw[i];
+                        code = raw.charCodeAt(i);
+                        _var2 = isSpace(code);
+                        if (_var2) {
+                            result += ' ';
+                            __state = '4';
+                        } else {
+                            if (code > 32) {
+                                _var3 = checker.isGoodChar(ch);
+                                if (_var3) {
+                                    result += ch;
+                                    __state = '4';
+                                } else {
+                                    result += ' ';
+                                    __state = '4';
+                                }
                             } else {
-                                result += ' ';
                                 __state = '4';
                             }
-                        } else {
-                            __state = '4';
                         }
+                    } else {
+                        _var4 = result.trim();
+                        return _var4;
                     }
-                } else {
-                    _var4 = result.trim();
-                    return _var4;
-                }
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -195,27 +195,27 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                array = array || [];
-                _var2 = array;
-                _var3 = 0;
-                __state = '6';
-                break;
-            case '6':
-                if (_var3 < _var2.length) {
-                    item = _var2[_var3];
-                    if (item[property] === value) {
-                        return item;
+                case '2':
+                    array = array || [];
+                    _var2 = array;
+                    _var3 = 0;
+                    __state = '6';
+                    break;
+                case '6':
+                    if (_var3 < _var2.length) {
+                        item = _var2[_var3];
+                        if (item[property] === value) {
+                            return item;
+                        } else {
+                            _var3++;
+                            __state = '6';
+                        }
                     } else {
-                        _var3++;
-                        __state = '6';
+                        return undefined;
                     }
-                } else {
-                    return undefined;
-                }
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -223,37 +223,37 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                if (code === 9) {
-                    __state = '15';
-                } else {
-                    if (code === 10) {
+                case '2':
+                    if (code === 9) {
                         __state = '15';
                     } else {
-                        if (code === 32) {
+                        if (code === 10) {
                             __state = '15';
                         } else {
-                            if (code === 160) {
+                            if (code === 32) {
                                 __state = '15';
                             } else {
-                                if (code === 133) {
+                                if (code === 160) {
                                     __state = '15';
                                 } else {
-                                    if (code === 32) {
+                                    if (code === 133) {
                                         __state = '15';
                                     } else {
-                                        return false;
+                                        if (code === 32) {
+                                            __state = '15';
+                                        } else {
+                                            return false;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                break;
-            case '15':
-                return true;
-            default:
-                return;
+                    break;
+                case '15':
+                    return true;
+                default:
+                    return;
             }
         }
     }
@@ -262,19 +262,19 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '1':
-                return;
-            case '2':
-                index = findIndex(array, property, value);
-                if (index === -1) {
-                    __state = '1';
-                } else {
-                    array.splice(index, 1);
-                    __state = '1';
-                }
-                break;
-            default:
-                return;
+                case '1':
+                    return;
+                case '2':
+                    index = findIndex(array, property, value);
+                    if (index === -1) {
+                        __state = '1';
+                    } else {
+                        array.splice(index, 1);
+                        __state = '1';
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -283,55 +283,56 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                if (obj === undefined) {
-                    __state = '3';
-                } else {
-                    if (obj === null) {
+                case '2':
+                    if (obj === undefined) {
                         __state = '3';
                     } else {
-                        _var2 = typeof obj;
-                        if (_var2 === 'number') {
-                            __state = '36';
+                        if (obj === null) {
+                            __state = '3';
                         } else {
-                            if (_var2 === 'boolean') {
+                            _var2 = typeof obj;
+                            if (_var2 === 'number') {
                                 __state = '36';
                             } else {
-                                if (_var2 === 'string') {
+                                if (_var2 === 'boolean') {
                                     __state = '36';
                                 } else {
-                                    if (_var2 === 'bigint') {
+                                    if (_var2 === 'string') {
                                         __state = '36';
                                     } else {
-                                        if (_var2 === 'function') {
+                                        if (_var2 === 'bigint') {
                                             __state = '36';
                                         } else {
-                                            if (_var2 === 'symbol') {
+                                            if (_var2 === 'function') {
                                                 __state = '36';
                                             } else {
-                                                if (obj instanceof RegExp) {
+                                                if (_var2 === 'symbol') {
                                                     __state = '36';
                                                 } else {
-                                                    if (obj instanceof Date) {
+                                                    if (obj instanceof RegExp) {
                                                         __state = '36';
                                                     } else {
-                                                        _var10 = visited.has(obj);
-                                                        if (_var10) {
-                                                            throw new Error('deepClone: cycle detected');
+                                                        if (obj instanceof Date) {
+                                                            __state = '36';
                                                         } else {
-                                                            visited.add(obj);
-                                                            _var8 = Array.isArray(obj);
-                                                            if (_var8) {
-                                                                array = [];
-                                                                _var3 = obj;
-                                                                _var4 = 0;
-                                                                __state = '32';
+                                                            _var10 = visited.has(obj);
+                                                            if (_var10) {
+                                                                throw new Error('deepClone: cycle detected');
                                                             } else {
-                                                                copy = {};
-                                                                _var6 = obj;
-                                                                _var5 = Object.keys(_var6);
-                                                                _var7 = 0;
-                                                                __state = '43';
+                                                                visited.add(obj);
+                                                                _var8 = Array.isArray(obj);
+                                                                if (_var8) {
+                                                                    array = [];
+                                                                    _var3 = obj;
+                                                                    _var4 = 0;
+                                                                    __state = '32';
+                                                                } else {
+                                                                    copy = {};
+                                                                    _var6 = obj;
+                                                                    _var5 = Object.keys(_var6);
+                                                                    _var7 = 0;
+                                                                    __state = '43';
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -343,36 +344,35 @@ function utils() {
                             }
                         }
                     }
-                }
-                break;
-            case '3':
-                return undefined;
-            case '32':
-                if (_var4 < _var3.length) {
-                    item = _var3[_var4];
-                    _var9 = deepCloneCore(visited, item);
-                    array.push(_var9);
-                    _var4++;
-                    __state = '32';
-                } else {
-                    return array;
-                }
-                break;
-            case '36':
-                return obj;
-            case '43':
-                if (_var7 < _var5.length) {
-                    key = _var5[_var7];
-                    value = _var6[key];
-                    copy[key] = deepCloneCore(visited, value);
-                    _var7++;
-                    __state = '43';
-                } else {
-                    return copy;
-                }
-                break;
-            default:
-                return;
+                    break;
+                case '3':
+                    return undefined;
+                case '32':
+                    if (_var4 < _var3.length) {
+                        item = _var3[_var4];
+                        _var9 = deepCloneCore(visited, item);
+                        array.push(_var9);
+                        _var4++;
+                        __state = '32';
+                    } else {
+                        return array;
+                    }
+                    break;
+                case '36':
+                    return obj;
+                case '43':
+                    if (_var7 < _var5.length) {
+                        key = _var5[_var7];
+                        value = _var6[key];
+                        copy[key] = deepCloneCore(visited, value);
+                        _var7++;
+                        __state = '43';
+                    } else {
+                        return copy;
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -381,33 +381,33 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                leftValue = left[property];
-                rightValue = right[property];
-                if (typeof leftValue === 'string') {
-                    if (typeof rightValue === 'string') {
-                        leftValue = leftValue.toLowerCase();
-                        rightValue = rightValue.toLowerCase();
-                        __state = '4';
+                case '2':
+                    leftValue = left[property];
+                    rightValue = right[property];
+                    if (typeof leftValue === 'string') {
+                        if (typeof rightValue === 'string') {
+                            leftValue = leftValue.toLowerCase();
+                            rightValue = rightValue.toLowerCase();
+                            __state = '4';
+                        } else {
+                            __state = '4';
+                        }
                     } else {
                         __state = '4';
                     }
-                } else {
-                    __state = '4';
-                }
-                break;
-            case '4':
-                if (leftValue < rightValue) {
-                    return -1;
-                } else {
-                    if (leftValue > rightValue) {
-                        return 1;
+                    break;
+                case '4':
+                    if (leftValue < rightValue) {
+                        return -1;
                     } else {
-                        return 0;
+                        if (leftValue > rightValue) {
+                            return 1;
+                        } else {
+                            return 0;
+                        }
                     }
-                }
-            default:
-                return;
+                default:
+                    return;
             }
         }
     }
@@ -417,7 +417,7 @@ function utils() {
         return -1 * comp;
     }
     function debounceAsync_create(action, delay) {
-        var tobj, nextRequested, msg, _var2;
+        var tobj, nextRequested, _var2;
         var me = {
             state: '2',
             type: 'debounceAsync'
@@ -426,39 +426,39 @@ function utils() {
             try {
                 while (true) {
                     switch (me.state) {
-                    case '2':
-                        me.state = '6';
-                        return;
-                    case '5':
-                        tobj = setTimeout(me.onTimeout, delay);
-                        me.state = '11';
-                        return;
-                    case '12':
-                        clearTimeout(tobj);
-                        me.state = '5';
-                        break;
-                    case '14':
-                        me.state = '15';
-                        return;
-                    case '20':
-                        if (nextRequested) {
+                        case '2':
+                            me.state = '6';
+                            return;
+                        case '5':
+                            tobj = setTimeout(me.onTimeout, delay);
+                            me.state = '11';
+                            return;
+                        case '12':
+                            clearTimeout(tobj);
                             me.state = '5';
-                        } else {
-                            me.state = '2';
-                        }
-                        break;
-                    case '21':
-                        nextRequested = true;
-                        me.state = '14';
-                        break;
-                    case '23':
-                        nextRequested = false;
-                        _var2 = action();
-                        _var2.then(me.done);
-                        me.state = '14';
-                        break;
-                    default:
-                        return;
+                            break;
+                        case '14':
+                            me.state = '15';
+                            return;
+                        case '20':
+                            if (nextRequested) {
+                                me.state = '5';
+                            } else {
+                                me.state = '2';
+                            }
+                            break;
+                        case '21':
+                            nextRequested = true;
+                            me.state = '14';
+                            break;
+                        case '23':
+                            nextRequested = false;
+                            _var2 = action();
+                            _var2.then(me.done);
+                            me.state = '14';
+                            break;
+                        default:
+                            return;
                     }
                 }
             } catch (ex) {
@@ -469,43 +469,42 @@ function utils() {
         me.run = function () {
             me.run = undefined;
             return new Promise(function (__resolve, __reject) {
-                me.onInput = function (_msg_) {
-                    msg = _msg_;
+                me.onInput = function () {
                     switch (me.state) {
-                    case '6':
-                        me.state = '5';
-                        _main_debounceAsync(__resolve, __reject);
-                        break;
-                    case '11':
-                        me.state = '12';
-                        _main_debounceAsync(__resolve, __reject);
-                        break;
-                    case '15':
-                        me.state = '21';
-                        _main_debounceAsync(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '6':
+                            me.state = '5';
+                            _main_debounceAsync(__resolve, __reject);
+                            break;
+                        case '11':
+                            me.state = '12';
+                            _main_debounceAsync(__resolve, __reject);
+                            break;
+                        case '15':
+                            me.state = '21';
+                            _main_debounceAsync(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.onTimeout = function () {
                     switch (me.state) {
-                    case '11':
-                        me.state = '23';
-                        _main_debounceAsync(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '23';
+                            _main_debounceAsync(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.done = function () {
                     switch (me.state) {
-                    case '15':
-                        me.state = '20';
-                        _main_debounceAsync(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '15':
+                            me.state = '20';
+                            _main_debounceAsync(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 _main_debounceAsync(__resolve, __reject);
@@ -522,19 +521,19 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '1':
-                return;
-            case '2':
-                index = array.indexOf(item);
-                if (index === -1) {
-                    __state = '1';
-                } else {
-                    array.splice(index, 1);
-                    __state = '1';
-                }
-                break;
-            default:
-                return;
+                case '1':
+                    return;
+                case '2':
+                    index = array.indexOf(item);
+                    if (index === -1) {
+                        __state = '1';
+                    } else {
+                        array.splice(index, 1);
+                        __state = '1';
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -543,21 +542,21 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                bucket = map[key];
-                if (bucket) {
-                    __state = '8';
-                } else {
-                    bucket = [];
-                    map[key] = bucket;
-                    __state = '8';
-                }
-                break;
-            case '8':
-                bucket.push(value);
-                return;
-            default:
-                return;
+                case '2':
+                    bucket = map[key];
+                    if (bucket) {
+                        __state = '8';
+                    } else {
+                        bucket = [];
+                        map[key] = bucket;
+                        __state = '8';
+                    }
+                    break;
+                case '8':
+                    bucket.push(value);
+                    return;
+                default:
+                    return;
             }
         }
     }
@@ -566,29 +565,29 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '1':
-                return;
-            case '2':
-                if (from) {
-                    _var2 = from;
-                    _var3 = 0;
-                    __state = '6';
-                } else {
-                    __state = '1';
-                }
-                break;
-            case '6':
-                if (_var3 < _var2.length) {
-                    item = _var2[_var3];
-                    to.push(item);
-                    _var3++;
-                    __state = '6';
-                } else {
-                    __state = '1';
-                }
-                break;
-            default:
-                return;
+                case '1':
+                    return;
+                case '2':
+                    if (from) {
+                        _var2 = from;
+                        _var3 = 0;
+                        __state = '6';
+                    } else {
+                        __state = '1';
+                    }
+                    break;
+                case '6':
+                    if (_var3 < _var2.length) {
+                        item = _var2[_var3];
+                        to.push(item);
+                        _var3++;
+                        __state = '6';
+                    } else {
+                        __state = '1';
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -597,33 +596,33 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                result = {};
-                _var3 = from;
-                _var2 = Object.keys(_var3);
-                _var4 = 0;
-                __state = '6';
-                break;
-            case '5':
-                _var4++;
-                __state = '6';
-                break;
-            case '6':
-                if (_var4 < _var2.length) {
-                    key = _var2[_var4];
-                    value = _var3[key];
-                    if (key in what) {
-                        __state = '5';
+                case '2':
+                    result = {};
+                    _var3 = from;
+                    _var2 = Object.keys(_var3);
+                    _var4 = 0;
+                    __state = '6';
+                    break;
+                case '5':
+                    _var4++;
+                    __state = '6';
+                    break;
+                case '6':
+                    if (_var4 < _var2.length) {
+                        key = _var2[_var4];
+                        value = _var3[key];
+                        if (key in what) {
+                            __state = '5';
+                        } else {
+                            result[key] = value;
+                            __state = '5';
+                        }
                     } else {
-                        result[key] = value;
-                        __state = '5';
+                        return result;
                     }
-                } else {
-                    return result;
-                }
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -646,32 +645,32 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '1':
-                return;
-            case '2':
-                if (array) {
-                    direction = direction || 'asc';
-                    direction = direction.toLowerCase();
-                    if (direction === 'asc') {
-                        sorter = comparerAsc;
-                        __state = '7';
+                case '1':
+                    return;
+                case '2':
+                    if (array) {
+                        direction = direction || 'asc';
+                        direction = direction.toLowerCase();
+                        if (direction === 'asc') {
+                            sorter = comparerAsc;
+                            __state = '7';
+                        } else {
+                            sorter = comparerDesc;
+                            __state = '7';
+                        }
                     } else {
-                        sorter = comparerDesc;
-                        __state = '7';
+                        __state = '1';
                     }
-                } else {
+                    break;
+                case '7':
+                    array.sort(function (left, right) {
+                        _var2 = sorter(property, left, right);
+                        return _var2;
+                    });
                     __state = '1';
-                }
-                break;
-            case '7':
-                array.sort(function (left, right) {
-                    _var2 = sorter(property, left, right);
-                    return _var2;
-                });
-                __state = '1';
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -686,27 +685,27 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                array = array || [];
-                length = array.length;
-                i = 0;
-                __state = '6';
-                break;
-            case '6':
-                if (i < length) {
-                    item = array[i];
-                    if (item[property] === value) {
-                        return i;
+                case '2':
+                    array = array || [];
+                    length = array.length;
+                    i = 0;
+                    __state = '6';
+                    break;
+                case '6':
+                    if (i < length) {
+                        item = array[i];
+                        if (item[property] === value) {
+                            return i;
+                        } else {
+                            i++;
+                            __state = '6';
+                        }
                     } else {
-                        i++;
-                        __state = '6';
+                        return -1;
                     }
-                } else {
-                    return -1;
-                }
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -726,24 +725,24 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                i = text.length - start - 1;
-                __state = '5';
-                break;
-            case '5':
-                if (i >= 0) {
-                    if (text[i] === needle) {
-                        return i;
+                case '2':
+                    i = text.length - start - 1;
+                    __state = '5';
+                    break;
+                case '5':
+                    if (i >= 0) {
+                        if (text[i] === needle) {
+                            return i;
+                        } else {
+                            i--;
+                            __state = '5';
+                        }
                     } else {
-                        i--;
-                        __state = '5';
+                        return -1;
                     }
-                } else {
-                    return -1;
-                }
-                break;
-            default:
-                return;
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -771,37 +770,37 @@ function utils() {
             try {
                 while (true) {
                     switch (me.state) {
-                    case '2':
-                        me.state = '14';
-                        return;
-                    case '5':
-                        tobj = setTimeout(function () {
-                            me.onTimeout();
-                        }, delay);
-                        me.state = '11';
-                        return;
-                    case '12':
-                        clearTimeout(tobj);
-                        me.state = '5';
-                        break;
-                    case '17':
-                        action(msg);
-                        me.state = '2';
-                        break;
-                    case '19':
-                        clearTimeout(tobj);
-                        me.state = '20';
-                        break;
-                    case '20':
-                        action(msg);
-                        me.state = '2';
-                        break;
-                    case '22':
-                        clearTimeout(tobj);
-                        me.state = '2';
-                        break;
-                    default:
-                        return;
+                        case '2':
+                            me.state = '14';
+                            return;
+                        case '5':
+                            tobj = setTimeout(function () {
+                                me.onTimeout();
+                            }, delay);
+                            me.state = '11';
+                            return;
+                        case '12':
+                            clearTimeout(tobj);
+                            me.state = '5';
+                            break;
+                        case '17':
+                            action(msg);
+                            me.state = '2';
+                            break;
+                        case '19':
+                            clearTimeout(tobj);
+                            me.state = '20';
+                            break;
+                        case '20':
+                            action(msg);
+                            me.state = '2';
+                            break;
+                        case '22':
+                            clearTimeout(tobj);
+                            me.state = '2';
+                            break;
+                        default:
+                            return;
                     }
                 }
             } catch (ex) {
@@ -815,51 +814,51 @@ function utils() {
                 me.onInput = function (_msg_) {
                     msg = _msg_;
                     switch (me.state) {
-                    case '11':
-                        me.state = '12';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    case '14':
-                        me.state = '5';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '12';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        case '14':
+                            me.state = '5';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.force = function (_msg_) {
                     msg = _msg_;
                     switch (me.state) {
-                    case '11':
-                        me.state = '19';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    case '14':
-                        me.state = '17';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '19';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        case '14':
+                            me.state = '17';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.onTimeout = function () {
                     switch (me.state) {
-                    case '11':
-                        me.state = '20';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '20';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 me.reset = function () {
                     switch (me.state) {
-                    case '11':
-                        me.state = '22';
-                        _main_forceDebounce(__resolve, __reject);
-                        break;
-                    default:
-                        return;
+                        case '11':
+                            me.state = '22';
+                            _main_forceDebounce(__resolve, __reject);
+                            break;
+                        default:
+                            return;
                     }
                 };
                 _main_forceDebounce(__resolve, __reject);
@@ -872,38 +871,37 @@ function utils() {
         return __obj.run();
     }
     function isSubset(larger, smaller) {
-        var _var3, _var2, _var4, smallKey, _;
+        var _var3, _var2, _var4, smallKey;
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                if (larger) {
-                    _var3 = smaller;
-                    _var2 = Object.keys(_var3);
-                    _var4 = 0;
-                    __state = '7';
-                } else {
-                    __state = '5';
-                }
-                break;
-            case '5':
-                return false;
-            case '7':
-                if (_var4 < _var2.length) {
-                    smallKey = _var2[_var4];
-                    _ = _var3[smallKey];
-                    if (smallKey in larger) {
-                        _var4++;
+                case '2':
+                    if (larger) {
+                        _var3 = smaller;
+                        _var2 = Object.keys(_var3);
+                        _var4 = 0;
                         __state = '7';
                     } else {
                         __state = '5';
                     }
-                } else {
-                    return true;
-                }
-                break;
-            default:
-                return;
+                    break;
+                case '5':
+                    return false;
+                case '7':
+                    if (_var4 < _var2.length) {
+                        smallKey = _var2[_var4];
+                        if (smallKey in larger) {
+                            _var4++;
+                            __state = '7';
+                        } else {
+                            __state = '5';
+                        }
+                    } else {
+                        return true;
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }
@@ -912,32 +910,32 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                _var2 = fields;
-                _var3 = 0;
-                __state = '5';
-                break;
-            case '4':
-                _var3++;
-                __state = '5';
-                break;
-            case '5':
-                if (_var3 < _var2.length) {
-                    field = _var2[_var3];
-                    value = src[field];
-                    _var4 = hasValue(value);
-                    if (_var4) {
-                        dst[field] = value;
-                        __state = '4';
+                case '2':
+                    _var2 = fields;
+                    _var3 = 0;
+                    __state = '5';
+                    break;
+                case '4':
+                    _var3++;
+                    __state = '5';
+                    break;
+                case '5':
+                    if (_var3 < _var2.length) {
+                        field = _var2[_var3];
+                        value = src[field];
+                        _var4 = hasValue(value);
+                        if (_var4) {
+                            dst[field] = value;
+                            __state = '4';
+                        } else {
+                            __state = '4';
+                        }
                     } else {
-                        __state = '4';
+                        return;
                     }
-                } else {
+                    break;
+                default:
                     return;
-                }
-                break;
-            default:
-                return;
             }
         }
     }
@@ -946,26 +944,26 @@ function utils() {
         var __state = '2';
         while (true) {
             switch (__state) {
-            case '2':
-                result = [];
-                _var3 = obj;
-                _var2 = Object.keys(_var3);
-                _var4 = 0;
-                __state = '6';
-                break;
-            case '6':
-                if (_var4 < _var2.length) {
-                    key = _var2[_var4];
-                    value = _var3[key];
-                    result.push(value);
-                    _var4++;
+                case '2':
+                    result = [];
+                    _var3 = obj;
+                    _var2 = Object.keys(_var3);
+                    _var4 = 0;
                     __state = '6';
-                } else {
-                    return result;
-                }
-                break;
-            default:
-                return;
+                    break;
+                case '6':
+                    if (_var4 < _var2.length) {
+                        key = _var2[_var4];
+                        value = _var3[key];
+                        result.push(value);
+                        _var4++;
+                        __state = '6';
+                    } else {
+                        return result;
+                    }
+                    break;
+                default:
+                    return;
             }
         }
     }

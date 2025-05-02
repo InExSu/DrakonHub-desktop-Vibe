@@ -151,10 +151,6 @@ function simplewidgets_0_1() {
         };
         return me;
     }
-    function Tooltip(text) {
-        var __obj = Tooltip_create(text);
-        return __obj.run();
-    }
     function showTooltip(left, top, text) {
         hideTooltip();
         unit.tooltipElement = div({
@@ -785,36 +781,6 @@ function simplewidgets_0_1() {
             }
         }
     }
-    function popPopup(skipCancel) {
-        var popup;
-        var __state = '2';
-        while (true) {
-            switch (__state) {
-            case '1':
-                return;
-            case '2':
-                if (unit.popups.length === 0) {
-                    __state = '1';
-                } else {
-                    popup = unit.popups.pop();
-                    html.remove(popup.element);
-                    if (popup.onCanceled) {
-                        if (skipCancel) {
-                            __state = '1';
-                        } else {
-                            popup.onCanceled();
-                            __state = '1';
-                        }
-                    } else {
-                        __state = '1';
-                    }
-                }
-                break;
-            default:
-                return;
-            }
-        }
-    }
     function pushPopup(element, x, y, onCanceled) {
         var root, start;
         start = 100;
@@ -1062,7 +1028,7 @@ function simplewidgets_0_1() {
         widget.container.style.background = widget.background;
         return;
     }
-    function DummyWidget_redraw(self, container) {
+    function DummyWidget_redraw(self) {
         setBackgroundColor(self);
         return;
     }
@@ -1278,10 +1244,6 @@ function simplewidgets_0_1() {
         };
         return me;
     }
-    function snackProc(snackDiv) {
-        var __obj = snackProc_create(snackDiv);
-        return __obj.run();
-    }
     function snackProcLong_create(snackDiv) {
         var me = {
             state: '2',
@@ -1325,10 +1287,6 @@ function simplewidgets_0_1() {
             });
         };
         return me;
-    }
-    function snackProcLong(snackDiv) {
-        var __obj = snackProcLong_create(snackDiv);
-        return __obj.run();
     }
     function removeSnack() {
         var container;
@@ -1412,7 +1370,7 @@ function simplewidgets_0_1() {
         return;
     }
     function showContextMenuExact(x, y, items, options) {
-        var shift, menu, movable, mv, _var2, _var3, item, _var4;
+        var menu, movable, mv, _var2, _var3, item, _var4;
         var __state = '2';
         while (true) {
             switch (__state) {
@@ -1471,7 +1429,6 @@ function simplewidgets_0_1() {
                 });
                 if (options) {
                     if ('shift' in options) {
-                        shift = options.shift;
                         if ('width' in options) {
                             menu.style.width = options.width;
                             __state = '_item2';
@@ -1557,17 +1514,6 @@ function simplewidgets_0_1() {
         properties = {};
         _var2 = html.createElement('div', properties, args);
         return _var2;
-    }
-    function onUnhandledError(ex) {
-        var _var2;
-        console.log('onUnhandledError');
-        console.error(ex);
-        try {
-            _var2 = tr('Произошла ошибка');
-            showErrorSnack(_var2 + ': ' + ex.message);
-        } catch (ex) {
-        }
-        return;
     }
     function disableContextMenu(element) {
         element.addEventListener('contextmenu', noContext);

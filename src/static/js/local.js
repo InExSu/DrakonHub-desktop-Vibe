@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 (function() {
 var _inst_dh2common = dh2common();
 var _inst_drakon_canvas = drakon_canvas();

@@ -600,7 +600,7 @@ function drcore() {
         var __obj = loadForDiagram_create();
         return __obj.run();
     }
-    function confirmReplace_create(newName) {
+    function confirmReplace_create() {
         var ok, _var2, _var3, _var4;
         var me = {
             state: '2',
@@ -644,7 +644,7 @@ function drcore() {
         };
         return me;
     }
-    function confirmReplace(newName) {
+    function confirmReplace(newName = '') {
         var __obj = confirmReplace_create(newName);
         return __obj.run();
     }
@@ -803,6 +803,7 @@ function drcore() {
                         }
                         break;
                     case '11':
+                        // eslint-disable-next-line no-undef
                         strings = getLocalizedStrings(settings.language);
                         dh2common.setStrings(strings);
                         me.state = undefined;
@@ -890,63 +891,6 @@ function drcore() {
     }
     function reloadSettings() {
         var __obj = reloadSettings_create();
-        return __obj.run();
-    }
-    function toDiagram_create() {
-        var diagram, _var2;
-        var me = {
-            state: '2',
-            type: 'toDiagram'
-        };
-        function _main_toDiagram(__resolve, __reject) {
-            try {
-                while (true) {
-                    switch (me.state) {
-                    case '1':
-                        me.state = undefined;
-                        __resolve({ ok: true });
-                        return;
-                    case '2':
-                        dh2common.showWaitBlock();
-                        me.state = '11';
-                        loadForDiagram().then(function (__returnee) {
-                            diagram = __returnee;
-                            _main_toDiagram(__resolve, __reject);
-                        }, function (error) {
-                            me.state = undefined;
-                            __reject(error);
-                        });
-                        return;
-                    case '11':
-                        dh2common.hideWaitBlock();
-                        if (diagram) {
-                            toDiagramCore(diagram);
-                            me.state = '1';
-                        } else {
-                            _var2 = tr('Could not load diagram');
-                            widgets.showErrorSnack(_var2);
-                            me.state = '1';
-                        }
-                        break;
-                    default:
-                        return;
-                    }
-                }
-            } catch (ex) {
-                me.state = undefined;
-                __reject(ex);
-            }
-        }
-        me.run = function () {
-            me.run = undefined;
-            return new Promise(function (__resolve, __reject) {
-                _main_toDiagram(__resolve, __reject);
-            });
-        };
-        return me;
-    }
-    function toDiagram() {
-        var __obj = toDiagram_create();
         return __obj.run();
     }
     function toDiagramCore(file) {
@@ -1476,14 +1420,6 @@ function drcore() {
         _var2 = dh2common.setTimeout(action, delay, notrace);
         return _var2;
     }
-    function initContextMenus() {
-        registerEvent(document, 'contextmenu', onGlobalContextMenu, true);
-        return;
-    }
-    function onGlobalContextMenu(evt) {
-        console.log(evt, evt.target);
-        return;
-    }
     function onError(evt) {
         panic(evt.error);
         return;
@@ -1521,7 +1457,7 @@ function drcore() {
         _var2 = hitBox(pos, prim.diagramLeft, prim.diagramTop, width, prim.diagramHeight);
         return _var2;
     }
-    function getCursorForItemOff(prim, pos, evt) {
+    function getCursorForItemOff(prim, pos) {
         var link, nothing, _var2;
         link = function () {
             return 'pointer';
@@ -1532,7 +1468,7 @@ function drcore() {
         _var2 = runMouseAction(prim, pos, link, link, nothing);
         return _var2;
     }
-    function onItemClickOff(widget, prim, pos, evt) {
+    function onItemClickOff(widget, prim, pos) {
         var link, nothing, insertion, id, _var2, _var3;
         link = function (prim) {
             launcher.openLink(prim.link);
@@ -1618,7 +1554,7 @@ function drcore() {
             }
         }
     }
-    function openInsertion_create(prim, id) {
+    function openInsertion_create(prim) {
         var message, path, name, _var2;
         var me = {
             state: '2',
@@ -1795,149 +1731,11 @@ function drcore() {
         button.style.marginBottom = '10px';
         return button;
     }
-    function createHelpItems() {
-        var result, _var2;
-        var __state = '2';
-        while (true) {
-            switch (__state) {
-            case '2':
-                _var2 = tr('About');
-                result = [{
-                        label: _var2 + ' ' + gconfig.appName,
-                        code: 'showAbout'
-                    }];
-                if (gconfig.showLearn) {
-                    result.unshift({
-                        label: 'Как редактировать дракон-схемы',
-                        code: 'showHowToEdit'
-                    });
-                    __state = '7';
-                } else {
-                    __state = '7';
-                }
-                break;
-            case '7':
-                return result;
-            default:
-                return;
-            }
-        }
-    }
     function getDrakonWidgetOff() {
         return unit.screens.editor.drakon;
     }
-    function setStartMenu() {
-        var file, menu, help, _var2, _var3, _var4, _var5, _var6;
-        _var2 = tr('New diagram');
-        _var3 = tr('Open file');
-        _var4 = tr('Close window');
-        file = [
-            {
-                label: _var2 + '...',
-                code: 'startCreateNew'
-            },
-            {
-                label: _var3 + '...',
-                code: 'startOpenFile'
-            },
-            { type: 'separator' },
-            {
-                label: _var4,
-                code: 'closeWindow'
-            }
-        ];
-        help = createHelpItems();
-        _var5 = tr('File');
-        _var6 = tr('Help');
-        menu = [
-            {
-                label: _var5,
-                submenu: file
-            },
-            {
-                label: _var6,
-                submenu: help
-            }
-        ];
-        launcher.setMenu(menu);
-        return;
-    }
     function isDrakonOff() {
         return unit.rootWidget.current === 'editor';
-    }
-    function setFileMenu() {
-        var file, menu, help, exp, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9, _var10, _var11, _var12, _var13;
-        _var2 = tr('New window');
-        _var3 = tr('New diagram');
-        _var4 = tr('Open file');
-        _var5 = tr('Save as');
-        _var6 = tr('Close file');
-        _var7 = tr('Close window');
-        file = [
-            {
-                label: _var2,
-                code: 'newWindow'
-            },
-            {
-                label: _var3 + '...',
-                code: 'editorCreateNew'
-            },
-            {
-                label: _var4 + '...',
-                code: 'startOpenFile'
-            },
-            {
-                label: _var5 + '...',
-                code: 'saveAsFile'
-            },
-            {
-                label: _var6,
-                code: 'closeFile'
-            },
-            { type: 'separator' },
-            {
-                label: _var7,
-                code: 'closeWindow'
-            }
-        ];
-        _var11 = tr('Save as picture');
-        _var12 = tr('Save as picture');
-        _var13 = tr('Save as picture');
-        exp = [
-            {
-                label: _var11 + ' \xD74...',
-                code: 'saveAsPictureX4'
-            },
-            {
-                label: _var12 + ' \xD72...',
-                code: 'saveAsPictureX2'
-            },
-            { type: 'separator' },
-            {
-                label: _var13 + '...',
-                code: 'saveAsPicture'
-            }
-        ];
-        help = createHelpItems();
-        _var8 = tr('File');
-        _var9 = tr('Export');
-        _var10 = tr('Help');
-        menu = [
-            {
-                label: _var8,
-                submenu: file
-            },
-            {
-                label: _var9,
-                submenu: exp
-            },
-            {
-                label: _var10,
-                submenu: help
-            }
-        ];
-        launcher.setMenu(menu);
-        return;
     }
     function isReadonlyOff() {
         var widget;
@@ -2379,51 +2177,14 @@ function drcore() {
             }
         }
     }
-    function showContextMenuOff(widget, x, y, items, prim) {
+    function showContextMenuOff(widget, x, y, items) {
         var options;
         items.forEach(dh2common.removeTagsFromRedirect);
         options = { movable: true };
         widgets.showContextMenu(x, y, items, options);
         return;
     }
-    function showTryExportOptions(widget, evt) {
-        var items, rect, _var2, _var3, _var4, _var5;
-        items = [];
-        _var2 = tr('Export to diagram file');
-        items.push({
-            text: _var2,
-            action: function () {
-                dh2common.saveAsJson(widget.drakon);
-            }
-        });
-        items.push({ type: 'separator' });
-        _var3 = tr('Save as picture');
-        items.push({
-            text: _var3 + ' \xD74',
-            action: function () {
-                dh2common.saveAsPng(widget.drakon, 4);
-            }
-        });
-        _var5 = tr('Save as picture');
-        items.push({
-            text: _var5 + ' \xD72',
-            action: function () {
-                dh2common.saveAsPng(widget.drakon, 2);
-            }
-        });
-        items.push({ type: 'separator' });
-        _var4 = tr('Save as picture');
-        items.push({
-            text: _var4,
-            action: function () {
-                dh2common.saveAsPng(widget.drakon, 1);
-            }
-        });
-        rect = evt.target.getBoundingClientRect();
-        widgets.showContextMenuExact(rect.left, rect.bottom, items);
-        return;
-    }
-    function showDesktopMainMenu_create(widget) {
+    function showDesktopMainMenu_create() {
         var client, createNew, items, divTopButtons, recentItems, ritems, fitems, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9, _var10, _var11, _var12, _var13, _var14, _var15;
         var me = {
             state: '2',

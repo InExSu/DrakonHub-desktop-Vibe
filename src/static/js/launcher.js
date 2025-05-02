@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 (function() {
     function main() {
         _inst_drcore.start()

@@ -460,8 +460,8 @@ function standalone() {
         var __obj = closeMyFile_create();
         return __obj.run();
     }
-    function createDiagram_create(type, name, inNewWindow) {
-        var diagram, parsed, fullPath, _var2;
+    function createDiagram_create(type, name) {
+        var diagram, fullPath, _var2;
         var me = {
             state: '2',
             type: 'createDiagram'
@@ -469,7 +469,6 @@ function standalone() {
         function _main_createDiagram(__resolve, __reject) {
             try {
                 fullPath = name + '.' + type;
-                parsed = core.parsePath(fullPath);
                 diagram = {
                     name: name,
                     items: {},
@@ -543,6 +542,7 @@ function standalone() {
                                 if (_var2 === 'graf') {
                                     me.state = '198';
                                 } else {
+                                    // eslint-disable-next-line no-undef
                                     _var3 = translate('Unknown document type');
                                     widgets.showErrorSnack(_var3);
                                     me.state = undefined;
@@ -973,9 +973,6 @@ function standalone() {
             return _var2;
         }
     }
-    function getUserSettings() {
-        return unit.userSettings;
-    }
     function loadUserSettingsCore() {
         var settingsStr, settings;
         var __state = '2';
@@ -1017,33 +1014,6 @@ function standalone() {
         _var2 = dh2common.translate(message);
         return _var2;
     }
-    function showSubmenu(parent, items) {
-        var rect, items2;
-        rect = parent.getBoundingClientRect();
-        items2 = items.map(function (item) {
-            return {
-                action: function () {
-                    core.runMenuItem(item.code);
-                },
-                text: item.label
-            };
-        });
-        widgets.showContextMenuExact(rect.left, rect.bottom, items2);
-        return;
-    }
-    function addOpenItem(parent, path, target) {
-        var container, _var2;
-        container = widgets.div('grid-item', {
-            padding: '10px',
-            text: path
-        });
-        container.addEventListener('click', function () {
-            _var2 = getDiagram(path);
-            target.open(_var2);
-        });
-        parent.appendChild(container);
-        return;
-    }
     function saveDiagram(path, diagram) {
         var _var2;
         _var2 = JSON.stringify(diagram);
@@ -1060,51 +1030,6 @@ function standalone() {
         diagram.name = derived;
         diagram.access = 'write';
         return diagram;
-    }
-    function initTranslations_create() {
-        var settings;
-        var me = {
-            state: '2',
-            type: 'initTranslations'
-        };
-        function _main_initTranslations(__resolve, __reject) {
-            try {
-                while (true) {
-                    switch (me.state) {
-                    case '1':
-                        me.state = undefined;
-                        __resolve({ ok: true });
-                        return;
-                    case '2':
-                        settings = loadUserSettingsCore();
-                        me.state = '1';
-                        dh2common.loadStringsForLanguage(settings.language).then(function () {
-                            _main_initTranslations(__resolve, __reject);
-                        }, function (error) {
-                            me.state = undefined;
-                            __reject(error);
-                        });
-                        return;
-                    default:
-                        return;
-                    }
-                }
-            } catch (ex) {
-                me.state = undefined;
-                __reject(ex);
-            }
-        }
-        me.run = function () {
-            me.run = undefined;
-            return new Promise(function (__resolve, __reject) {
-                _main_initTranslations(__resolve, __reject);
-            });
-        };
-        return me;
-    }
-    function initTranslations() {
-        var __obj = initTranslations_create();
-        return __obj.run();
     }
     function openFileByPath_create(filename) {
         var _var2;
@@ -1141,26 +1066,6 @@ function standalone() {
         _var2 = JSON.stringify(unit.recent);
         localStorage.setItem('drlauncher-recent', _var2);
         return;
-    }
-    function createTopMenuItem(parent, item) {
-        var container;
-        container = div('grid-item', {
-            'display': 'inline-block',
-            'padding': '10px',
-            'text': item.label
-        });
-        container.addEventListener('click', function () {
-            showSubmenu(container, item.submenu);
-        });
-        html.add(parent, container);
-        return;
-    }
-    function div() {
-        var args, properties, _var2;
-        args = Array.prototype.slice.call(arguments);
-        properties = {};
-        _var2 = html.createElement('div', properties, args);
-        return _var2;
     }
     function addToRecent(path) {
         var item, maxRecent, oldest;

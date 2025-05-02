@@ -268,6 +268,16 @@ function html_0_1() {
             return 1;
         }
     }
+    /**
+     * Удаляет элемент из DOM
+     * @param {HTMLElement} element - Элемент для удаления
+     */
+    function removeElement(element) {
+        if (element && element.parentNode) {
+            element.parentNode.removeChild(element);
+        }
+        return;
+    }
     unit.addClass = addClass;
     unit.resetStyle = resetStyle;
     unit.createStyle = createStyle;
@@ -286,6 +296,8 @@ function html_0_1() {
     unit.goTo = goTo;
     unit.setTitle = setTitle;
     unit.getRetinaFactor = getRetinaFactor;
+    // Добавляем функцию в экспортируемый объект unit
+    unit.removeElement = removeElement;
     return unit;
 }
 if (typeof module != 'undefined') {
