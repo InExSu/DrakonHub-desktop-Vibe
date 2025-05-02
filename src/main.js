@@ -31,7 +31,7 @@ async function findDiagram(winInfo, name) {
     try {
         await readUtf8File(fullName)
         return fullName
-    } catch (ex) {
+    } catch (_ex) {
         return undefined
     }
 }
@@ -43,7 +43,7 @@ async function saveAsPng(winInfo, name, uri) {
             defaultPath: path.join(globals.defaultImagePath, name + ".png"),
             filters: [
                 { name: 'PNG', extensions: ["png"] }
-            ] 
+            ]
         }
     )
 
@@ -55,7 +55,7 @@ async function saveAsPng(winInfo, name, uri) {
     var parsed = parsePath(filename)
     globals.defaultImagePath = parsed.folder
 
-    var data = uri.split(',')[1]; 
+    var data = uri.split(',')[1];
     await fs.writeFile(filename, data, "base64")
 }
 
@@ -88,10 +88,10 @@ async function confirmRename(winInfo, newName) {
         }
     }
 
-    return await fileExists(newPath)    
+    return await fileExists(newPath)
 }
 
-async function createDiagram(winInfo, type, name) {    
+async function createDiagram(winInfo, type, name) {
     var suggestedPath
     if (winInfo.path) {
         suggestedPath = buildPath(winInfo.folder, name, type)
@@ -114,14 +114,14 @@ async function createDiagram(winInfo, type, name) {
     }
 
     var newPath = dialogResult.filePath
-    
-    
-    var diagram = {type:type, items:{}}
+
+
+    var diagram = { type: type, items: {} }
     var diagramStr = serializeDiagram(diagram)
     try {
         await fs.writeFile(newPath, diagramStr)
-    } catch (ex) {
-        return {error: "Could not create file"}
+    } catch (_ex) {
+        return { error: "Could not create file" }
     }
     if (winInfo.path) {
         createWindow(newPath)
@@ -152,7 +152,7 @@ async function openFile(winInfo) {
     }
 
     var newPath = dialogResult.filePaths[0]
-    
+
     return openFileAt(winInfo, newPath)
 }
 
@@ -173,14 +173,14 @@ async function openFileAt(winInfo, newPath, newWindow) {
     }
     try {
         await readUtf8File(newPath)
-    } catch (ex) {
-        return {error: "Could not open file"}
-    }    
+    } catch (_ex) {
+        return { error: "Could not open file" }
+    }
     await closeMyFile(winInfo)
     winInfo.path = newPath
     var opened = await openFileObject(winInfo)
     if (!opened) {
-        return {error: "Could not open file"}
+        return { error: "Could not open file" }
     }
 
     await addToRecent(winInfo.path)
@@ -192,8 +192,8 @@ async function readMyFile(winInfo) {
     var content
     try {
         content = await readUtf8File(winInfo.path)
-    } catch (ex) {
-        return {error: "Could not read file"}
+    } catch (_ex) {
+        return { error: "Could not read file" }
     }
     content = content.trim()
     var diagram
@@ -202,8 +202,8 @@ async function readMyFile(winInfo) {
     } else {
         try {
             diagram = JSON.parse(content)
-        } catch (ex) {
-            return {error: "Bad JSON"}
+        } catch (_ex) {
+            return { error: "Bad JSON" }
         }
     }
 
@@ -212,7 +212,7 @@ async function readMyFile(winInfo) {
     }
 
     if (diagram.type !== "drakon" && diagram.type !== "graf" && diagram.type !== "free") {
-        return {error: "Bad diagram type"}
+        return { error: "Bad diagram type" }
     }
 
     if (!diagram.items) {
@@ -222,14 +222,14 @@ async function readMyFile(winInfo) {
     diagram.name = winInfo.name
     diagram.access = winInfo.access
 
-    return {content: JSON.stringify(diagram)}
+    return { content: JSON.stringify(diagram) }
 }
 
 async function saveMyFile(winInfo, diagram) {
     var name = diagram.name
     delete diagram.name
     var content = serializeDiagram(diagram)
-  
+
     if (name != winInfo.name) {
         var newPath = buildPath(winInfo.folder, name, winInfo.type)
         var found = findWindowByPathExact(newPath)
@@ -245,7 +245,7 @@ async function saveMyFile(winInfo, diagram) {
             await fs.rename(oldPath, newPath)
             await removeRecent(oldPath)
             await addToRecent(newPath)
-        } catch (ex) {
+        } catch (_ex) {
             await openFileObject(winInfo)
             return false
         }
@@ -259,7 +259,7 @@ async function saveMyFile(winInfo, diagram) {
 async function saveMyFileAs(winInfo) {
     var filters = [
         { name: 'Diagrams', extensions: [winInfo.type] }
-    ]    
+    ]
     var dialogResult = await dialog.showSaveDialog(
         winInfo.window,
         {
@@ -276,13 +276,13 @@ async function saveMyFileAs(winInfo) {
 
     var found = findWindowByPath(newPath)
     if (found && found !== winInfo) {
-        return {error: "Could not replace file"}
+        return { error: "Could not replace file" }
     }
 
     try {
         await fs.copyFile(winInfo.path, newPath)
-    } catch (ex) {
-        return {error: "Could not create file"}
+    } catch (_ex) {
+        return { error: "Could not create file" }
     }
 
     return await openFileAt(winInfo, newPath)
@@ -336,7 +336,7 @@ async function saveUserSettings(winInfo, settings) {
 }
 
 async function loadTranslations(winInfo, language) {
-    var strings = undefined 
+    var strings = undefined
     if (language !== "en-us") {
         var fullName = path.normalize(path.join(__dirname, config.strings))
 
@@ -358,7 +358,7 @@ async function openLink(winInfo, link) {
 }
 
 async function restartApp(winInfo) {
-    createWindow(undefined)    
+    createWindow(undefined)
     winInfo.window.close()
 }
 
@@ -416,17 +416,17 @@ function transformMenu(item, winInfo) {
     }
 
     if (item.code) {
-        result.click = function() { 
+        result.click = function () {
             winInfo.window.webContents.send("runMenuItem", item.code)
         }
     }
 
     if (item.submenu) {
         result.submenu = item.submenu.map(
-            function(it) {
+            function (it) {
                 return transformMenu(it, winInfo)
             }
-        )        
+        )
     }
 
     return result
@@ -436,10 +436,10 @@ async function saveCore(winInfo, content) {
     try {
         await fs.writeFile(winInfo.path, content, "utf8")
         return true
-    } catch (ex) {
+    } catch (_ex) {
         console.error(ex)
         return false
-    }      
+    }
 }
 
 async function openFileObject(winInfo) {
@@ -449,7 +449,7 @@ async function openFileObject(winInfo) {
     try {
         var content = await readUtf8File(winInfo.path)
         diagram = JSON.parse(content)
-    } catch (ex) {
+    } catch (_ex) {
         return false
     }
 
@@ -457,12 +457,12 @@ async function openFileObject(winInfo) {
         handle = await fs.open(winInfo.path, "a")
         access = "write"
         await handle.close()
-    } catch (ex) {
+    } catch (_ex) {
         try {
             handle = await fs.open(winInfo.path, "r")
             access = "read"
             await handle.close()
-        } catch (ex) {
+        } catch (_ex) {
             return false
         }
     }
@@ -526,13 +526,11 @@ function parsePath(path) {
 
     var nameParts = filename.split(".")
     var type, name
-    if (nameParts.length === 1)
-    {
+    if (nameParts.length === 1) {
         name = filename
         type = ""
     }
-    else
-    {
+    else {
         name = nameParts.slice(0, nameParts.length - 1).join(".")
         type = nameParts[nameParts.length - 1]
     }
@@ -591,23 +589,23 @@ function registerMainCallbacks() {
     registerHandler(restartApp)
     registerHandler(closeWindow)
     registerHandler(setMenu)
-    registerHandler(setTitle)    
+    registerHandler(setTitle)
 }
 
 function registerHandler(fun) {
-    ipcMain.handle(fun.name, function(evt, ...args) {
+    ipcMain.handle(fun.name, function (evt, ...args) {
         return wrapper(evt, fun, ...args)
     })
 }
 
-function wrapper(evt, fun, ...args) {    
+function wrapper(evt, fun, ...args) {
     var winInfo = getWindowFromEvent(evt)
     return fun(winInfo, ...args)
 }
 
 
 function raiseWindow(winInfo) {
-    var myWindow = winInfo.window    
+    var myWindow = winInfo.window
 
     if (myWindow.isMinimized()) {
         myWindow.restore()
@@ -628,13 +626,13 @@ function raiseFirstWindow() {
 async function addToRecent(filename) {
     var userConf = await readUserConf()
     removeBy(userConf.recent, "path", filename)
-    userConf.recent.push({path:filename})
+    userConf.recent.push({ path: filename })
     await saveUserConf(userConf)
 }
 
 async function removeRecent(oldPath) {
     var userConf = await readUserConf()
-    removeBy(userConf.recent, "path", oldPath)    
+    removeBy(userConf.recent, "path", oldPath)
     await saveUserConf(userConf)
 }
 
@@ -649,8 +647,8 @@ async function readUserConf() {
     var content = ""
     try {
         content = await readUtf8File(filename)
-    } catch (ex) {
-
+    } catch (_ex) {
+        // пусто
     }
     content = content.trim()
     var result
@@ -663,7 +661,7 @@ async function readUserConf() {
     if (!result.recent) {
         result.recent = []
     }
-    
+
     if (!result.settings) {
         result.settings = {}
     }
@@ -675,11 +673,11 @@ async function readUtf8File(filename) {
     return await fs.readFile(filename, "utf8")
 }
 
-async function fileExists(filename)     {
+async function fileExists(filename) {
     try {
         await readUtf8File(filename)
         return true
-    } catch (ex) {
+    } catch (_ex) {
         return false
     }
 }
@@ -732,7 +730,7 @@ const createWindow = async (filePath) => {
     win.webContents.on('context-menu', (evt, props) => { handleContextMenu(winInfo, evt, props) })
 
     win.loadFile('index.html')
-    
+
     if (process.argv.indexOf("--dev") !== -1) {
         win.webContents.openDevTools()
     }
@@ -763,15 +761,15 @@ function onSecondInstance(evt, argv) {
         var found = findWindowByPathExact(filename)
         if (found) {
             log("onSecondInstance: found instance: " + found.id)
-            raiseWindow(found)            
+            raiseWindow(found)
         } else {
             log("onSecondInstance: did not find instance")
             createWindow(filename)
         }
     } else {
-            log("onSecondInstance: no filename, raising first window")
-            raiseFirstWindow()
-    }    
+        log("onSecondInstance: no filename, raising first window")
+        raiseFirstWindow()
+    }
 }
 
 async function onClose(winInfo) {
@@ -817,8 +815,8 @@ function handleContextMenu(winInfo, event, props) {
     }
 
     if (template.length !== 0) {
-        const menu = Menu.buildFromTemplate(template)        
-	    menu.popup(window)
+        const menu = Menu.buildFromTemplate(template)
+        menu.popup(window)
     }
 
 }
@@ -833,23 +831,23 @@ function tr(text) {
 
 function handleSquirrelEvent() {
     if (process.argv.length === 1) {
-      return false;
+        return false;
     }
-  
+
     const squirrelEvent = process.argv[1];
     switch (squirrelEvent) {
-      case '--squirrel-install':
-      case '--squirrel-updated':
-        return true;  
-      case '--squirrel-uninstall':
-        return true;  
-      case '--squirrel-obsolete':
-        return true;
+        case '--squirrel-install':
+        case '--squirrel-updated':
+            return true;
+        case '--squirrel-uninstall':
+            return true;
+        case '--squirrel-obsolete':
+            return true;
     }
 
     return false
 }
-  
+
 
 async function main() {
     if (handleSquirrelEvent()) {

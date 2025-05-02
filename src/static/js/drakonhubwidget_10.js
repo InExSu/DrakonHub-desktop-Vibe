@@ -24,33 +24,6 @@ function drakonhubwidget_10() {
         html.add(container, icon);
         return;
     }
-    function checkCanBeGoodFilename(name, tr) {
-        var error, sanitized;
-        var __state = '2';
-        while (true) {
-            switch (__state) {
-            case '2':
-                name = name.trim();
-                error = nameNotEmpty(name, tr);
-                if (error) {
-                    __state = '6';
-                } else {
-                    sanitized = utils.sanitizeFilename(name);
-                    if (sanitized) {
-                        return undefined;
-                    } else {
-                        error = tr('A name must contain normal characters, too');
-                        __state = '6';
-                    }
-                }
-                break;
-            case '6':
-                return error;
-            default:
-                return;
-            }
-        }
-    }
     function DrakonHubWidget_hasUnsavedChanges(self) {
         if (self.quill) {
             return self.quillDirty;
@@ -124,6 +97,7 @@ function drakonhubwidget_10() {
                 }
                 break;
             case '4':
+                // eslint-disable-next-line no-undef
                 quill = new Quill(container, options);
                 return quill;
             default:
@@ -645,26 +619,6 @@ function drakonhubwidget_10() {
             }
         }
     }
-    function toggleDescription(widget) {
-        var __state = '2';
-        while (true) {
-            switch (__state) {
-            case '1':
-                return;
-            case '2':
-                if (widget.showDesc) {
-                    hideDescription(widget);
-                    __state = '1';
-                } else {
-                    showDescription(widget);
-                    __state = '1';
-                }
-                break;
-            default:
-                return;
-            }
-        }
-    }
     function hideDescription(widget) {
         widget.showDesc = false;
         layoutRedraw(widget);
@@ -796,13 +750,12 @@ function drakonhubwidget_10() {
         return __obj.run();
     }
     function buildDescDiv(widget, width) {
-        var container, top, bottom, tr, path, buttons, _var2, _var3;
+        var container, top, bottom, tr, buttons, _var2, _var3;
         var __state = '2';
         while (true) {
             switch (__state) {
             case '2':
                 tr = widget.widgetSettings.translate;
-                path = widget.widgetSettings.imagePath;
                 container = div({
                     display: 'inline-block',
                     position: 'absolute',
@@ -926,7 +879,7 @@ function drakonhubwidget_10() {
         }
     }
     function startEditDescription(widget) {
-        var save, cancel, tr, path, canwidget, props, desc, quill, face, font, editorDiv, _var2, _var3;
+        var save, cancel, tr, canwidget, props, desc, quill, face, font, editorDiv, _var2, _var3;
         var __state = '6';
         while (true) {
             switch (__state) {
@@ -934,7 +887,6 @@ function drakonhubwidget_10() {
                 return;
             case '6':
                 tr = widget.widgetSettings.translate;
-                path = widget.widgetSettings.imagePath;
                 html.clear(widget.descButtons);
                 _var2 = tr('Save');
                 save = widgets.createDefaultButton(_var2, function () {
@@ -1079,7 +1031,7 @@ function drakonhubwidget_10() {
             '5 px'
         ];
     }
-    function setBorderThickness(context, value, align) {
+    function setBorderThickness(context, value) {
         var borderWidth;
         borderWidth = parseInt(value);
         changeStyleProperty(context, 'borderWidth', borderWidth);
@@ -1738,15 +1690,12 @@ function drakonhubwidget_10() {
             }
         }
     }
-    function closeAndUseColor(context, color) {
-        return;
-    }
     function rememberColor(data, color) {
         data.recent.unshift(color);
         return;
     }
     function addVerticalAlign(context) {
-        var section, top, center, bottom, _var2;
+        var section, top, bottom, _var2;
         var __state = '2';
         while (true) {
             switch (__state) {
@@ -1760,9 +1709,6 @@ function drakonhubwidget_10() {
             case '10':
                 top = addBoolIcon(section, context.path + 'valign-top.png', context.oldStyle.verticalAlign === 'top', function (value) {
                     setVerticalAlign(context, value, 'top');
-                });
-                center = addBoolIcon(section, context.path + 'valign-middle.png', context.oldStyle.verticalAlign === 'middle', function (value) {
-                    setVerticalAlign(context, value, 'middle');
                 });
                 bottom = addBoolIcon(section, context.path + 'valign-bottom.png', context.oldStyle.verticalAlign === 'bottom', function (value) {
                     setVerticalAlign(context, value, 'bottom');
@@ -1978,8 +1924,7 @@ function drakonhubwidget_10() {
         }
     }
     function createFormatDialog(widget, title, x, y) {
-        var dialog, tr, path;
-        tr = widget.widgetSettings.translate;
+        var dialog, path;
         path = widget.widgetSettings.imagePath;
         dialog = widgets.createMovablePopup(title, x, y, path, false);
         dialog.popup.style.width = '280px';
@@ -2190,7 +2135,7 @@ function drakonhubwidget_10() {
         ];
     }
     function addTextSection(context) {
-        var section, bold, italic, left, center, right, br, family, size, _var2, _var3, _var4, _var5, _var6, _var7;
+        var section, bold, italic, left,  right, br, family, size, _var2, _var3, _var4, _var5, _var6, _var7;
         var __state = '2';
         while (true) {
             switch (__state) {
@@ -2216,9 +2161,6 @@ function drakonhubwidget_10() {
             case '10':
                 left = addBoolIcon(section, context.path + 'align-left.png', context.oldStyle.textAlign === 'left', function (value) {
                     setTextAlign(context, value, 'left');
-                });
-                center = addBoolIcon(section, context.path + 'align-center.png', context.oldStyle.textAlign === 'center', function (value) {
-                    setTextAlign(context, value, 'center');
                 });
                 right = addBoolIcon(section, context.path + 'align-right.png', context.oldStyle.textAlign === 'right', function (value) {
                     setTextAlign(context, value, 'right');
@@ -2476,7 +2418,7 @@ function drakonhubwidget_10() {
             }
         }
     }
-    function setLineThickness(context, value, align) {
+    function setLineThickness(context, value) {
         var borderWidth;
         borderWidth = parseInt(value);
         changeStyleProperty(context, 'lineWidth', borderWidth);
@@ -2928,55 +2870,7 @@ function drakonhubwidget_10() {
             }
         ];
     }
-    function addHeaderSection(context) {
-        var section, bold, italic, family, size, br, _var2, _var3, _var4, _var5, _var6, _var7;
-        var __state = '2';
-        while (true) {
-            switch (__state) {
-            case '2':
-                _var2 = context.tr('Header');
-                section = addFormatSection(_var2, context.client);
-                __state = '9';
-                break;
-            case '8':
-                return;
-            case '9':
-                bold = addBoolIcon(section, context.path + 'bold.png', context.headerFont.weight === 'bold', function (value) {
-                    setBoldFont(context, 'headerFont', value);
-                });
-                italic = addBoolIcon(section, context.path + 'italics.png', context.headerFont.style === 'italic', function (value) {
-                    setItalicFont(context, 'headerFont', value);
-                });
-                makeGroupStart(bold);
-                makeGroupEnd(italic);
-                bold.style.marginLeft = '0px';
-                __state = '19';
-                break;
-            case '19':
-                br = div({ height: '5px' });
-                html.add(section, br);
-                _var3 = context.tr('Font family');
-                _var4 = getFontFamilies();
-                family = addCombo(context.path, section, _var3, context.headerFont.family, _var4, function (value) {
-                    setFontFamily(context, 'headerFont', value);
-                });
-                _var5 = context.tr('Font size');
-                _var6 = context.headerFont.size.toString();
-                _var7 = getFontSizes();
-                size = addCombo(context.path, section, _var5, _var6 + ' px', _var7, function (value) {
-                    setFontSize(context, 'headerFont', value);
-                });
-                family.style.width = '160px';
-                size.style.width = '70px';
-                size.style.marginLeft = '5px';
-                __state = '8';
-                break;
-            default:
-                return;
-            }
-        }
-    }
-    function setPadding(context, value, align) {
+    function setPadding(context, value) {
         var padding, _var2;
         var __state = '2';
         while (true) {
@@ -3948,7 +3842,7 @@ function drakonhubwidget_10() {
         return __obj.run();
     }
     function startEditLink_create(widget, prim, ro) {
-        var newContent, tr, path, canwidget, _var2, _var3, _var4;
+        var newContent, tr, canwidget, _var2, _var3, _var4;
         var me = {
             state: '2',
             type: 'startEditLink'
@@ -3959,7 +3853,6 @@ function drakonhubwidget_10() {
                     switch (me.state) {
                     case '2':
                         tr = widget.widgetSettings.translate;
-                        path = widget.widgetSettings.imagePath;
                         if (ro) {
                             _var3 = tr('Link');
                             widgets.inputBoxRo(prim.left, prim.top, _var3, prim.link);
@@ -4061,7 +3954,7 @@ function drakonhubwidget_10() {
         }
     }
     function startEditAux2_create(widget, prim, ro) {
-        var tr, path, newContent, canwidget, oldContent, _var2, _var3;
+        var tr, newContent, canwidget, oldContent, _var2, _var3;
         var me = {
             state: '2',
             type: 'startEditAux2'
@@ -4072,7 +3965,6 @@ function drakonhubwidget_10() {
                     switch (me.state) {
                     case '2':
                         tr = widget.widgetSettings.translate;
-                        path = widget.widgetSettings.imagePath;
                         oldContent = prim.aux2 || '';
                         if (ro) {
                             _var3 = tr('Aux info');
@@ -5002,6 +4894,7 @@ function drakonhubwidget_10() {
         obj = JSON.parse(json);
         name = obj.name;
         try {
+            // eslint-disable-next-line no-undef
             content = drakongen.toPseudocode(json, name, name + '.drakon', language);
             result = {
                 ok: true,
@@ -5024,7 +4917,7 @@ function drakonhubwidget_10() {
         return;
     }
     function showPseudocode(widget, generated) {
-        var dialog, tr, cancel, buttons, headerSize, pre, copy, language, regenerate, combo, options, generate, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9;
+        var dialog, tr, cancel, buttons, headerSize, pre, copy, language, regenerate, combo, generate, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9;
         var __state = '2';
         while (true) {
             switch (__state) {
@@ -5100,20 +4993,6 @@ function drakonhubwidget_10() {
                     display: 'inline-block'
                 });
                 html.add(regenerate, _var7);
-                options = [
-                    {
-                        id: 'en',
-                        text: 'English'
-                    },
-                    {
-                        id: 'no',
-                        text: 'Norsk'
-                    },
-                    {
-                        id: 'ru',
-                        text: 'Русский'
-                    }
-                ];
                 combo = html.createElement('select');
                 combo.style.padding = '5px';
                 combo.style.marginLeft = '5px';
@@ -5176,15 +5055,6 @@ function drakonhubwidget_10() {
     function generateCode(widget) {
         var __obj = generateCode_create(widget);
         return __obj.run();
-    }
-    function isRounded(widget) {
-        var theme;
-        theme = widget.userSettings.theme2;
-        if (theme.lineRadius === 0) {
-            return false;
-        } else {
-            return true;
-        }
     }
     function DrakonHubWidget_arrowRight(self) {
         self.drakon.arrowRight();
@@ -5434,13 +5304,12 @@ function drakonhubwidget_10() {
         }
     }
     function updateIconButtons(widget) {
-        var tr, path, row2, row3, row, row4, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9, _var10, _var11, _var12, _var13, _var14, _var15;
+        var tr, row2, row3, row, row4, _var2, _var3, _var4, _var5, _var6, _var7, _var8, _var9, _var10, _var11, _var12, _var13, _var14, _var15;
         var __state = '2';
         while (true) {
             switch (__state) {
             case '2':
                 tr = widget.widgetSettings.translate;
-                path = widget.widgetSettings.imagePath;
                 html.clear(widget.iconButtons);
                 __state = '14';
                 break;
@@ -5633,15 +5502,9 @@ function drakonhubwidget_10() {
         ctx.strokeRect(x + 0.5, y + 0.5, width, height);
         return;
     }
-    function updateToolbarVisibility(widget) {
-        var showToolbar;
-        showToolbar = localStorage.getItem('drakonhub-showtoolbar');
-        return;
-    }
     function updateMindButtons(widget) {
-        var tr, path, row2, row3, _var2, _var3, _var4;
+        var tr, row2, row3, _var2, _var3, _var4;
         tr = widget.widgetSettings.translate;
-        path = widget.widgetSettings.imagePath;
         html.clear(widget.iconButtons);
         addIconRow(widget, widget.iconButtons, 'rectangle.png', 'idea', 'Idea', 'A', 'rounded.png', 'ridea', 'Idea - rounded', 'R');
         row2 = addRowToToolbar(widget.iconButtons);
@@ -5927,9 +5790,6 @@ function drakonhubwidget_10() {
             }
         }
     }
-    function mergeUserSettings(config, userSettings) {
-        return;
-    }
     function setTheme(widget, theme) {
         theme.lineRadius = widget.lineRadius;
         theme.iconRadius = widget.iconRadius;
@@ -6124,13 +5984,12 @@ function drakonhubwidget_10() {
         }
     }
     function updateFreeIconButtons(widget) {
-        var tr, path, row3, _var2, _var3, _var4;
+        var tr, row3, _var2, _var3, _var4;
         var __state = '2';
         while (true) {
             switch (__state) {
             case '2':
                 tr = widget.widgetSettings.translate;
-                path = widget.widgetSettings.imagePath;
                 html.clear(widget.iconButtons);
                 __state = '64';
                 break;
@@ -6369,6 +6228,7 @@ function drakonhubwidget_10() {
         self.indicator = Indicator();
         return;
     }
+    // eslint-disable-next-line no-unused-vars
     function DrakonHubWidget_onShow(self) {
         return;
     }
