@@ -1057,7 +1057,7 @@
         var args = Array.prototype.slice.call(arguments),
             image=args[0],
             dx, dy, dw, dh, sx=0, sy=0, sw, sh, parent, svg, defs, group,
-            currentElement, svgImage, canvas, context, id;
+            svgImage, canvas, context, id;
 
         if(args.length === 3) {
             dx = args[1];
@@ -1087,7 +1087,7 @@
         }
 
         parent = this.__closestGroupOrSvg();
-        currentElement = this.__currentElement;
+        // Remove unused assignment
         var translateDirective = "translate(" + dx + ", " + dy + ")";
         if(image instanceof ctx) {
             //canvas2svg mock canvas context. In the future we may want to clone nodes instead.
@@ -1140,7 +1140,7 @@
     /**
      * Generates a pattern tag
      */
-    ctx.prototype.createPattern = function(image, repetition){
+    ctx.prototype.createPattern = function(image){
         var pattern = this.__document.createElementNS("http://www.w3.org/2000/svg", "pattern"), id = randomString(this.__ids),
             img;
         pattern.setAttribute("id", id);

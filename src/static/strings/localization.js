@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 function getLocalizedStrings(language) {
     if (language === "ru") {
         return {

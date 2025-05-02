@@ -182,3 +182,7 @@ function roundedLine(ctx, points, radiusAll) {
   var last = points[len - 1]
   ctx.lineTo(last.x, last.y)  
 }
+
+// Заменить в конце файла
+window.roundedPoly = roundedPoly;
+window.roundedLine = roundedLine;

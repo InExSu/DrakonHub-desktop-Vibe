@@ -5808,17 +5808,21 @@ function drakonhubwidget_10() {
             switch (__state) {
             case '2':
                 if (widget.hideToolbar) {
-                    widget.buttonsBar.style.display = 'none';
-                    widget.view.style.width = '100%';
-                    widget.view.style.left = '0px';
-                    widget.showToolbar.style.display = 'inline-block';
-                    widget.showToolbar.style.position = 'absolute';
-                    widget.showToolbar.style.left = '3px';
-                    widget.showToolbar.style.top = '3px';
+                    if (widget.buttonsBar && widget.buttonsBar.style) widget.buttonsBar.style.display = 'none';
+                    if (widget.view && widget.view.style) {
+                        widget.view.style.width = '100%';
+                        widget.view.style.left = '0px';
+                    }
+                    if (widget.showToolbar && widget.showToolbar.style) {
+                        widget.showToolbar.style.display = 'inline-block';
+                        widget.showToolbar.style.position = 'absolute';
+                        widget.showToolbar.style.left = '3px';
+                        widget.showToolbar.style.top = '3px';
+                    }
                     __state = '38';
                 } else {
-                    widget.buttonsBar.style.display = 'inline-block';
-                    widget.showToolbar.style.display = 'none';
+                    if (widget.buttonsBar && widget.buttonsBar.style) widget.buttonsBar.style.display = 'inline-block';
+                    if (widget.showToolbar && widget.showToolbar.style) widget.showToolbar.style.display = 'none';
                     __state = '16';
                 }
                 break;

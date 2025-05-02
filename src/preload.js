@@ -24,8 +24,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   closeWindow: () => ipcRenderer.invoke("closeWindow"),
   setMenu: (menu) => ipcRenderer.invoke("setMenu", menu),
   setTitle: (title) => ipcRenderer.invoke("setTitle", title), 
-  findDiagram: (name) => ipcRenderer.invoke("findDiagram", name), 
-
+  findDiagram: (name) => ipcRenderer.invoke('findDiagram', name), 
+  getLocalizedStrings: () => ipcRenderer.invoke('getLocalizedStrings'),
   clipboardUpdated: (callback) => ipcRenderer.on('clipboardUpdated', callback),
   runMenuItem: (callback) => ipcRenderer.on('runMenuItem', callback)
 })
