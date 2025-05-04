@@ -1,3 +1,5 @@
+/* global roundedPoly, roundedLine */
+
 function drakon_canvas() {
     var unit = {};
     var html, edit_tools, tracing, utils;

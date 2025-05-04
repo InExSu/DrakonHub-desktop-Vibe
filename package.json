@@ -1,0 +1,17 @@
+{
+  "devDependencies": {
+    "electron": "^36.1.0",
+    "electron-debug": "^3.2.0",
+    "eslint": "^9.25.1"
+  },
+  "scripts": {
+    "build:mac": "electron-builder --mac",
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "deb": "electron-forge make --targets @electron-forge/maker-deb",
+    "rpm": "electron-forge make --targets @electron-forge/maker-rpm",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix ."
+  }
+}

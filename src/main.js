@@ -31,7 +31,7 @@ async function findDiagram(winInfo, name) {
     try {
         await readUtf8File(fullName)
         return fullName
-    } catch (_ex) {
+    }catch {
         return undefined
     }
 }
@@ -120,7 +120,7 @@ async function createDiagram(winInfo, type, name) {
     var diagramStr = serializeDiagram(diagram)
     try {
         await fs.writeFile(newPath, diagramStr)
-    } catch (_ex) {
+    }catch {
         return { error: "Could not create file" }
     }
     if (winInfo.path) {
@@ -173,7 +173,7 @@ async function openFileAt(winInfo, newPath, newWindow) {
     }
     try {
         await readUtf8File(newPath)
-    } catch (_ex) {
+    }catch {
         return { error: "Could not open file" }
     }
     await closeMyFile(winInfo)
@@ -192,7 +192,7 @@ async function readMyFile(winInfo) {
     var content
     try {
         content = await readUtf8File(winInfo.path)
-    } catch (_ex) {
+    }catch {
         return { error: "Could not read file" }
     }
     content = content.trim()
@@ -202,7 +202,7 @@ async function readMyFile(winInfo) {
     } else {
         try {
             diagram = JSON.parse(content)
-        } catch (_ex) {
+        }catch {
             return { error: "Bad JSON" }
         }
     }
@@ -245,7 +245,7 @@ async function saveMyFile(winInfo, diagram) {
             await fs.rename(oldPath, newPath)
             await removeRecent(oldPath)
             await addToRecent(newPath)
-        } catch (_ex) {
+        }catch {
             await openFileObject(winInfo)
             return false
         }
@@ -281,7 +281,7 @@ async function saveMyFileAs(winInfo) {
 
     try {
         await fs.copyFile(winInfo.path, newPath)
-    } catch (_ex) {
+    }catch {
         return { error: "Could not create file" }
     }
 
@@ -308,6 +308,7 @@ async function loadUserSettings() {
     return userConf.settings
 }
 
+// eslint-disable-next-line no-unused-vars
 function updateContextMenus(language) {
     // var labels
     // if (language === "en-us") {
@@ -366,6 +367,7 @@ async function closeWindow(winInfo) {
     winInfo.window.close()
 }
 
+// eslint-disable-next-line no-unused-vars
 async function setMenu(winInfo, menu) {
     // Do not show the menu
     //winInfo.window.setMenu(null)
@@ -407,6 +409,7 @@ function getDefaultPath(winInfo) {
     return ""
 }
 
+// eslint-disable-next-line no-unused-vars
 function transformMenu(item, winInfo) {
     if (item.type === "separator") {
         return item
@@ -436,7 +439,7 @@ async function saveCore(winInfo, content) {
     try {
         await fs.writeFile(winInfo.path, content, "utf8")
         return true
-    } catch (_ex) {
+    } catch (ex) {
         console.error(ex)
         return false
     }
@@ -449,7 +452,7 @@ async function openFileObject(winInfo) {
     try {
         var content = await readUtf8File(winInfo.path)
         diagram = JSON.parse(content)
-    } catch (_ex) {
+    }catch {
         return false
     }
 
@@ -457,12 +460,12 @@ async function openFileObject(winInfo) {
         handle = await fs.open(winInfo.path, "a")
         access = "write"
         await handle.close()
-    } catch (_ex) {
+    }catch {
         try {
             handle = await fs.open(winInfo.path, "r")
             access = "read"
             await handle.close()
-        } catch (_ex) {
+        }catch {
             return false
         }
     }
@@ -647,7 +650,7 @@ async function readUserConf() {
     var content = ""
     try {
         content = await readUtf8File(filename)
-    } catch (_ex) {
+    }catch {
         // пусто
     }
     content = content.trim()
@@ -677,7 +680,7 @@ async function fileExists(filename) {
     try {
         await readUtf8File(filename)
         return true
-    } catch (_ex) {
+    }catch {
         return false
     }
 }
